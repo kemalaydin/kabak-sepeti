@@ -23,37 +23,36 @@ RSpec.describe OrdersController, type: :request do
       post('/orders', params: body)
    end
 
-   it 'return 200' do
-      #% yapmasını istediğim işlem
-      post_request
-      #% olması gerekeni bildiriyorum ;
-      expect(response).to have_http_status(200)
-   end 
-
-   it 'should create order' do
+   it 'order' do
       expect do
          post_request
       end.to change { Order.count }.by(1)
    end
 
-   it 'return email' do
-      post_request
-      expect(json['email']).to eq body[:email]
-   end
+   context "should return" do
+      before do
+         post_request
+      end
 
-   it 'return status' do
-      post_request
-      expect(json['status']).to eq body[:status]
-   end
-
-   it 'return total' do
-      post_request
-      expect(json['total'].to_f).to eq body[:total]
-   end
-
-   it 'return fields' do
-      post_request
-      expect(json.keys).to match_array(fields)
+      it '200' do
+         expect(response).to have_http_status(200)
+      end 
+   
+      it 'email' do
+         expect(json['email']).to eq body[:email]
+      end
+   
+      it 'status' do
+         expect(json['status']).to eq body[:status]
+      end
+   
+      it 'total' do
+         expect(json['total'].to_f).to eq body[:total]
+      end
+   
+      it 'fields' do
+         expect(json.keys).to match_array(fields)
+      end
    end
 
 end
